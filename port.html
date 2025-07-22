@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smit Chavda | Computer Engineer</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- three.js for background animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        /* Custom Styles & Animations */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        /* --- Pre-loader Animation --- */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease 2.5s, visibility 0.8s ease 2.5s; /* Delay for animation */
+        }
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .circuit-loader .trace {
+            fill: none;
+            stroke: #6366f1;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: draw-trace 2s ease-in-out forwards infinite;
+        }
+        .circuit-loader .node {
+            animation: pulse-node 1.5s ease-in-out infinite;
+        }
+        @keyframes draw-trace {
+            50% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: -100; }
+        }
+        @keyframes pulse-node {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 2px #818cf8); }
+            50% { transform: scale(1.2); filter: drop-shadow(0 0 8px #818cf8); }
+        }
+        /* Stagger trace animations */
+        .circuit-loader .trace:nth-child(2) { animation-delay: 0.1s; }
+        .circuit-loader .trace:nth-child(3) { animation-delay: 0.2s; }
+        .circuit-loader .trace:nth-child(4) { animation-delay: 0.3s; }
+        .circuit-loader .trace:nth-child(5) { animation-delay: 0.4s; }
+        .circuit-loader .trace:nth-child(6) { animation-delay: 0.5s; }
+        .circuit-loader .trace:nth-child(7) { animation-delay: 0.6s; }
+        .circuit-loader .trace:nth-child(8) { animation-delay: 0.7s; }
+        .circuit-loader .trace:nth-child(9) { animation-delay: 0.8s; }
+
+
+        /* --- three.js Background Canvas --- */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* --- Typing Animation Cursor --- */
+        .typing-cursor {
+            border-right: .15em solid #6366f1;
+            animation: blink-caret .75s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #6366f1; }
+        }
+        
+        /* --- Hero Section Parallax --- */
+        #hero-content {
+            transition: transform 0.1s linear;
+        }
+
+        /* --- Scroll-triggered Animations --- */
+        .reveal {
+            position: relative;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal.active {
+            transform: translateY(0px);
+            opacity: 1;
+        }
+
+        /* --- Isometric Project Card Hover Effect --- */
+        .projects-container {
+            perspective: 1000px;
+        }
+        .project-card {
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .project-card:hover {
+            transform: rotateX(10deg) rotateY(-10deg) scale(1.05);
+            box-shadow: 0 25px 35px -10px rgba(99, 102, 241, 0.3), 0 10px 15px -5px rgba(99, 102, 241, 0.1);
+        }
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+        .project-card:hover .project-image {
+            transform: scale(1.1);
+        }
+
+        /* --- Modal Styles & Animations --- */
+        .modal-backdrop {
+            transition: opacity 0.4s ease-in-out;
+        }
+        .modal-content {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease-in-out;
+            transform: translateY(50px);
+            opacity: 0;
+        }
+        .modal.open .modal-backdrop {
+            opacity: 1;
+        }
+        .modal.open .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .modal-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .modal.open .modal-reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .modal.open .modal-reveal:nth-child(1) { transition-delay: 0.2s; }
+        .modal.open .modal-reveal:nth-child(2) { transition-delay: 0.3s; }
+        .modal.open .modal-reveal:nth-child(3) { transition-delay: 0.4s; }
+        .modal.open .modal-reveal:nth-child(4) { transition-delay: 0.5s; }
+        
+        /* --- Skill Icon Hover --- */
+        .skill-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+            color: #818cf8;
+        }
+        
+        /* --- Button Ripple Microinteraction --- */
+        .ripple-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: ripple-effect 0.6s linear;
+        }
+        @keyframes ripple-effect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        /* --- Circular Scroll Progress --- */
+        #progress-container {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        #progress-container.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        #progress-circle {
+            transition: stroke-dashoffset 0.1s linear;
+        }
+        #hud-ring-1 {
+            animation: spin 10s linear infinite;
+            transform-origin: center;
+        }
+        #hud-ring-2 {
+            animation: spin-reverse 15s linear infinite;
+            transform-origin: center;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes spin-reverse {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(-360deg); }
+        }
+
+        /* --- Magnetic Icons --- */
+        .magnetic-icon {
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Pre-loader -->
+    <div class="preloader">
+        <div class="circuit-loader">
+            <svg width="150" height="150" viewBox="0 0 100 100">
+                <circle class="node" cx="50" cy="50" r="8" fill="#4f46e5"/>
+                <path class="trace" d="M50 42 V 20 H 30 V 10"/>
+                <path class="trace" d="M50 42 V 25 H 70 V 15"/>
+                <path class="trace" d="M58 50 H 80 V 30 H 90"/>
+                <path class="trace" d="M58 50 H 75 V 70 H 85"/>
+                <path class="trace" d="M50 58 V 80 H 70 V 90"/>
+                <path class="trace" d="M50 58 V 75 H 30 V 85"/>
+                <path class="trace" d="M42 50 H 20 V 70 H 10"/>
+                <path class="trace" d="M42 50 H 25 V 30 H 15"/>
+            </svg>
+        </div>
+    </div>
+    
+    <!-- Circular Scroll Progress Indicator -->
+    <div id="progress-container" class="fixed bottom-8 right-8 z-50 pointer-events-none">
+        <svg class="w-20 h-20" viewBox="0 0 100 100">
+            <!-- Static Rings -->
+            <circle id="hud-ring-1" class="text-indigo-500/20" stroke-width="2" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50"/>
+            <circle id="hud-ring-2" class="text-indigo-500/20" stroke-width="2" stroke="currentColor" fill="transparent" r="30" cx="50" cy="50"/>
+            
+            <!-- Progress Track -->
+            <circle class="text-slate-700" stroke-width="4" stroke="currentColor" fill="transparent" r="48" cx="50" cy="50"/>
+            
+            <!-- Actual Progress -->
+            <circle id="progress-circle" class="text-indigo-500" stroke-width="4" stroke-dasharray="301.59" stroke-dashoffset="301.59" stroke-linecap="round" stroke="currentColor" fill="transparent" r="48" cx="50" cy="50" transform="rotate(-90 50 50)"/>
+            
+            <!-- Central Icon -->
+            <text fill="#a7b1c4" x="50" y="50" font-size="20" text-anchor="middle" alignment-baseline="central" font-family="monospace">&lt;/&gt;</text>
+        </svg>
+    </div>
+
+    <!-- Background Animation Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Header -->
+    <header class="bg-black bg-opacity-50 backdrop-blur-lg fixed top-0 left-0 right-0 z-40">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white">SmitChavda<span class="text-indigo-400">.</span></a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#about" class="text-slate-300 hover:text-indigo-400 transition-colors duration-300">About</a>
+                <a href="#skills" class="text-slate-300 hover:text-indigo-400 transition-colors duration-300">Skills</a>
+                <a href="#projects" class="text-slate-300 hover:text-indigo-400 transition-colors duration-300">Projects</a>
+                <a href="#contact" class="text-slate-300 hover:text-indigo-400 transition-colors duration-300">Contact</a>
+            </nav>
+            <a href="#contact" class="hidden md:block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-4 rounded-lg shadow-lg shadow-indigo-500/20 transition-all duration-300">
+                Get In Touch
+            </a>
+            <button id="mobile-menu-btn" class="md:hidden text-white">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black bg-opacity-80">
+             <a href="#about" class="block py-2 px-6 text-slate-300 hover:bg-indigo-900">About</a>
+             <a href="#skills" class="block py-2 px-6 text-slate-300 hover:bg-indigo-900">Skills</a>
+             <a href="#projects" class="block py-2 px-6 text-slate-300 hover:bg-indigo-900">Projects</a>
+             <a href="#contact" class="block py-2 px-6 text-slate-300 hover:bg-indigo-900">Contact</a>
+        </div>
+    </header>
+
+    <main class="relative z-10">
+        <!-- Hero Section -->
+        <section id="home" class="h-screen flex items-center justify-center text-center relative overflow-hidden">
+            <div id="hero-content" class="z-10 px-4">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-4">
+                    Hi, I'm Smit Chavda
+                </h1>
+                <div class="h-12 md:h-16 flex justify-center items-center">
+                    <p class="text-2xl md:text-4xl font-semibold text-indigo-300">
+                        <span id="typing-text" class="typing-cursor"></span>
+                    </p>
+                </div>
+                <p class="max-w-2xl mx-auto mt-4 text-lg md:text-xl text-slate-400">
+                    A final-year Computer Engineering student passionate about building intelligent, data-driven systems.
+                </p>
+                <div class="mt-8 flex justify-center gap-4">
+                    <a href="#projects" class="bg-indigo-600 text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-indigo-500/30 hover:bg-indigo-500 transform hover:scale-105 transition-all duration-300">
+                        View My Projects
+                    </a>
+                    <a href="Smit Chavda - Resume.pdf" download class="bg-slate-700 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-slate-600 transform hover:scale-105 transition-all duration-300">
+                        Download CV
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <div class="max-w-3xl mx-auto text-center reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-indigo-300">About Me</h2>
+                    <p class="text-slate-400 mb-4 text-lg">
+                       Hello there! I'm Smit, a final-year Computer Engineering student who's completely fascinated by the world of AI and Machine Learning. Ever since I wrote my first line of code, I've been hooked on the magic of turning complex problems into simple, elegant software solutions. For me, coding is the ultimate creative outlet.
+                    </p>
+                    <p class="text-slate-400 mb-8 text-lg">
+                       When I'm not diving deep into a new dataset or building an app, you can usually find me exploring the latest sci-fi movies or trying out new street food spots around Bhavnagar. I'm always on the lookout for exciting projects and opportunities to learn, so feel free to reach out!
+                    </p>
+                    <div class="flex space-x-8 justify-center">
+                       <a href="#" target="_blank" class="magnetic-icon text-slate-400 hover:text-indigo-400 text-4xl"><i class="fab fa-linkedin"></i></a>
+                       <a href="#" target="_blank" class="magnetic-icon text-slate-400 hover:text-indigo-400 text-4xl"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-20 md:py-32 bg-black bg-opacity-20">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-12 text-indigo-300 reveal">My Tech Stack</h2>
+                <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 max-w-5xl mx-auto">
+                    <!-- Skill Icons -->
+                    <div class="flex flex-col items-center p-4 reveal skill-icon transition-transform duration-300">
+                        <i class="fab fa-html5 text-6xl mb-2 text-slate-300"></i>
+                        <span class="font-semibold">HTML5</span>
+                    </div>
+                    <div class="flex flex-col items-center p-4 reveal skill-icon transition-transform duration-300">
+                        <i class="fab fa-css3-alt text-6xl mb-2 text-slate-300"></i>
+                        <span class="font-semibold">CSS3</span>
+                    </div>
+                    <div class="flex flex-col items-center p-4 reveal skill-icon transition-transform duration-300">
+                        <i class="fab fa-js-square text-6xl mb-2 text-slate-300"></i>
+                        <span class="font-semibold">JavaScript</span>
+                    </div>
+                    <div class="flex flex-col items-center p-4 reveal skill-icon transition-transform duration-300">
+                        <i class="fab fa-python text-6xl mb-2 text-slate-300"></i>
+                        <span class="font-semibold">Python</span>
+                    </div>
+                     <div class="flex flex-col items-center p-4 reveal skill-icon transition-transform duration-300">
+                        <i class="fas fa-brain text-6xl mb-2 text-slate-300"></i>
+                        <span class="font-semibold">Scikit-learn</span>
+                    </div>
+                     <div class="flex flex-col items-center p-4 reveal skill-icon transition-transform duration-300">
+                        <i class="fab fa-node-js text-6xl mb-2 text-slate-300"></i>
+                        <span class="font-semibold">Node.js</span>
+                    </div>
+                     <div class="flex flex-col items-center p-4 reveal skill-icon transition-transform duration-300">
+                        <i class="fab fa-java text-6xl mb-2 text-slate-300"></i>
+                        <span class="font-semibold">Java</span>
+                    </div>
+                    <div class="flex flex-col items-center p-4 reveal skill-icon transition-transform duration-300">
+                        <i class="fab fa-android text-6xl mb-2 text-slate-300"></i>
+                        <span class="font-semibold">Android</span>
+                    </div>
+                     <div class="flex flex-col items-center p-4 reveal skill-icon transition-transform duration-300">
+                        <i class="fas fa-database text-6xl mb-2 text-slate-300"></i>
+                        <span class="font-semibold">Firebase</span>
+                    </div>
+                     <div class="flex flex-col items-center p-4 reveal skill-icon transition-transform duration-300">
+                        <i class="fab fa-git-alt text-6xl mb-2 text-slate-300"></i>
+                        <span class="font-semibold">Git</span>
+                    </div>
+                     <div class="flex flex-col items-center p-4 reveal skill-icon transition-transform duration-300">
+                        <i class="fab fa-react text-6xl mb-2 text-slate-300"></i>
+                        <span class="font-semibold">React</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-indigo-300 reveal">Featured Projects</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10 projects-container">
+                    <!-- Project Card 1 -->
+                    <div class="bg-slate-900 rounded-2xl overflow-hidden shadow-lg project-card reveal">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="https://placehold.co/600x400/1e1b4b/93c5fd?text=Recommender+System" alt="Recommender System" class="project-image w-full h-full object-cover transition-transform duration-500 ease-in-out">
+                            <div class="project-overlay absolute inset-0 bg-indigo-900 bg-opacity-75 flex items-center justify-center opacity-0 transition-opacity duration-500 ease-in-out">
+                                <i class="fas fa-search-plus text-white text-4xl"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-white">E-commerce Recommender</h3>
+                            <p class="text-slate-400 mb-4">A recommendation engine to enhance user experience on an e-commerce platform.</p>
+                            <button class="open-modal-btn ripple-btn w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-500 transition-all duration-300 flex items-center justify-center h-10" data-project="1">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Project Card 2 -->
+                    <div class="bg-slate-900 rounded-2xl overflow-hidden shadow-lg project-card reveal">
+                         <div class="relative h-48 overflow-hidden">
+                            <img src="https://placehold.co/600x400/1e1b4b/93c5fd?text=Furniture+Website" alt="Furniture Website" class="project-image w-full h-full object-cover transition-transform duration-500 ease-in-out">
+                            <div class="project-overlay absolute inset-0 bg-indigo-900 bg-opacity-75 flex items-center justify-center opacity-0 transition-opacity duration-500 ease-in-out">
+                                <i class="fas fa-search-plus text-white text-4xl"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-white">Furniture E-commerce Site</h3>
+                            <p class="text-slate-400 mb-4">A full-featured e-commerce platform with a dynamic product catalog and cart system.</p>
+                             <button class="open-modal-btn ripple-btn w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-500 transition-all duration-300 flex items-center justify-center h-10" data-project="2">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Project Card 3 -->
+                    <div class="bg-slate-900 rounded-2xl overflow-hidden shadow-lg project-card reveal">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="https://placehold.co/600x400/1e1b4b/93c5fd?text=Cloth+Store+App" alt="Cloth Store App" class="project-image w-full h-full object-cover transition-transform duration-500 ease-in-out">
+                            <div class="project-overlay absolute inset-0 bg-indigo-900 bg-opacity-75 flex items-center justify-center opacity-0 transition-opacity duration-500 ease-in-out">
+                                <i class="fas fa-search-plus text-white text-4xl"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-white">Cloth Store Android App</h3>
+                            <p class="text-slate-400 mb-4">A native Android app with user login, product viewing, and a local SQLite cart.</p>
+                             <button class="open-modal-btn ripple-btn w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-500 transition-all duration-300 flex items-center justify-center h-10" data-project="3">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 md:py-32 bg-black bg-opacity-20">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-indigo-300 reveal">Get In Touch</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto mb-12 reveal">
+                    I'm currently looking for new opportunities and my inbox is always open. Whether you have a question or just want to say hi, I'll try my best to get back to you!
+                </p>
+                <div class="reveal">
+                    <a href="mailto:Smitchavda6756@gmail.com" class="inline-block bg-indigo-600 text-white font-bold text-lg py-4 px-10 rounded-full shadow-lg shadow-indigo-500/30 hover:bg-indigo-500 transform hover:scale-105 transition-all duration-300">
+                        Say Hello
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center">
+        <p class="text-slate-500">Designed & Built by Smit Chavda</p>
+    </footer>
+
+    <!-- Project Modal -->
+    <div id="project-modal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <!-- Backdrop -->
+        <div class="modal-backdrop fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm opacity-0"></div>
+        
+        <!-- Modal Content -->
+        <div class="modal-content bg-slate-900 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl z-10">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="modal-body">
+                <!-- Content will be injected by JS -->
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Pre-loader Logic ---
+            const preloader = document.querySelector('.preloader');
+            window.addEventListener('load', () => {
+                document.body.style.visibility = 'visible';
+                preloader.classList.add('hidden');
+            });
+
+            // --- Circular Scroll Progress ---
+            const progressContainer = document.getElementById('progress-container');
+            const progressCircle = document.getElementById('progress-circle');
+            const radius = progressCircle.r.baseVal.value;
+            const circumference = radius * 2 * Math.PI;
+
+            progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+            progressCircle.style.strokeDashoffset = circumference;
+
+            function updateScrollProgress() {
+                const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+                
+                if (scrollTop > 100) {
+                    progressContainer.classList.add('visible');
+                } else {
+                    progressContainer.classList.remove('visible');
+                }
+                
+                const scrollPercent = scrollTop / (scrollHeight - clientHeight);
+                const offset = circumference - scrollPercent * circumference;
+                progressCircle.style.strokeDashoffset = offset;
+            }
+            window.addEventListener('scroll', updateScrollProgress);
+
+
+            // --- Hero Section Parallax Animation ---
+            const heroSection = document.getElementById('home');
+            const heroContent = document.getElementById('hero-content');
+            heroSection.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                const x = (clientX / window.innerWidth - 0.5) * 2;
+                const y = (clientY / window.innerHeight - 0.5) * 2;
+
+                const parallaxAmount = 20; 
+                heroContent.style.transform = `translate(${x * -parallaxAmount}px, ${y * -parallaxAmount}px)`;
+            });
+
+            // --- Dynamic Typing Animation ---
+            const typingTextElement = document.getElementById('typing-text');
+            const phrases = ["AI/ML Enthusiast", "Software Developer", "Problem Solver"];
+            let phraseIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+
+            function type() {
+                const currentPhrase = phrases[phraseIndex];
+                let typeSpeed = 150;
+
+                if (isDeleting) {
+                    typingTextElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                    charIndex--;
+                    typeSpeed = 75;
+                } else {
+                    typingTextElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+
+                if (!isDeleting && charIndex === currentPhrase.length) {
+                    isDeleting = true;
+                    typeSpeed = 2000;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    phraseIndex = (phraseIndex + 1) % phrases.length;
+                    typeSpeed = 500;
+                }
+
+                setTimeout(type, typeSpeed);
+            }
+            type();
+
+            // --- Mobile Menu Toggle ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // --- Scroll-triggered Animations ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal').forEach(el => {
+                observer.observe(el);
+            });
+
+            // --- Magnetic Icons Microinteraction ---
+            const magneticIcons = document.querySelectorAll('.magnetic-icon');
+            magneticIcons.forEach(icon => {
+                icon.addEventListener('mousemove', (e) => {
+                    const { clientX, clientY } = e;
+                    const { left, top, width, height } = icon.getBoundingClientRect();
+                    const centerX = left + width / 2;
+                    const centerY = top + height / 2;
+
+                    const deltaX = clientX - centerX;
+                    const deltaY = clientY - centerY;
+
+                    const moveX = deltaX * 0.4;
+                    const moveY = deltaY * 0.4;
+
+                    icon.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                });
+
+                icon.addEventListener('mouseleave', () => {
+                    icon.style.transform = 'translate(0, 0)';
+                });
+            });
+
+            // --- Project Modal Logic ---
+            const projectModal = document.getElementById('project-modal');
+            const modalBody = document.getElementById('modal-body');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const openModalBtns = document.querySelectorAll('.open-modal-btn');
+            const modalBackdrop = projectModal.querySelector('.modal-backdrop');
+
+            const projectsData = {
+                '1': {
+                    title: 'E-commerce Product Recommender System',
+                    image: 'https://placehold.co/600x400/1e1b4b/93c5fd?text=Recommender+System',
+                    description: 'Designed and developed a prototype recommendation engine to enhance user experience on an e-commerce platform. I leveraged Python with Pandas and NumPy for data manipulation and analysis of user browsing history and purchase data. The core of the project is a collaborative filtering algorithm implemented with Scikit-learn to generate personalized product suggestions.',
+                    tech: ['Python', 'Scikit-learn', 'Pandas', 'NumPy'],
+                    liveLink: '#', repoLink: '#'
+                },
+                '2': {
+                    title: 'Furniture E-commerce Website',
+                    image: 'https://placehold.co/600x400/1e1b4b/93c5fd?text=Furniture+Website',
+                    description: 'I engineered a full-featured e-commerce platform using HTML, CSS, JavaScript, and Node.js, supporting a dynamic product catalog. Key features include dynamic product listings from a backend, a persistent shopping cart to hold items, and a streamlined order management system for processing customer purchases.',
+                    tech: ['HTML', 'CSS', 'JavaScript', 'Node.js'],
+                    liveLink: '#', repoLink: '#'
+                },
+                '3': {
+                    title: 'Cloth Store Android Application',
+                    image: 'https://placehold.co/600x400/1e1b4b/93c5fd?text=Cloth+Store+App',
+                    description: 'I developed a native Android e-commerce app using Java in Android Studio. The application features core functionalities for product viewing, user login, and a cart system. To manage user data and cart items locally on the device, I utilized a SQLite database. A primary focus was designing a user-centric UI that delivered an intuitive and seamless navigation experience for customers.',
+                    tech: ['Java', 'Android Studio', 'SQLite'],
+                    liveLink: '#', repoLink: '#'
+                }
+            };
+
+            function openModal(projectId) {
+                const project = projectsData[projectId];
+                if (!project) return;
+                const techHtml = project.tech.map(t => `<span class="bg-indigo-500/20 text-indigo-300 text-sm font-semibold px-3 py-1 rounded-full">${t}</span>`).join('');
+                modalBody.innerHTML = `
+                    <div class="grid md:grid-cols-5 gap-0">
+                        <div class="md:col-span-2 modal-reveal">
+                            <img src="${project.image}" alt="${project.title}" class="w-full h-full object-cover md:rounded-l-2xl rounded-t-2xl md:rounded-t-none">
+                        </div>
+                        <div class="md:col-span-3 p-8 md:p-10">
+                            <h2 class="text-3xl font-bold text-white mb-2 modal-reveal">${project.title}</h2>
+                            <div class="flex flex-wrap gap-2 mb-6 modal-reveal">
+                                ${techHtml}
+                            </div>
+                            <p class="text-slate-400 mb-6 modal-reveal">${project.description}</p>
+                            <div class="flex gap-4 modal-reveal">
+                                <a href="${project.liveLink}" target="_blank" class="flex-1 text-center bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg shadow-indigo-500/30 hover:bg-indigo-500 transform hover:scale-105 transition-all duration-300">Live Demo <i class="fas fa-external-link-alt ml-2"></i></a>
+                                <a href="${project.repoLink}" target="_blank" class="flex-1 text-center bg-slate-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-slate-600 transform hover:scale-105 transition-all duration-300">Source Code <i class="fab fa-github ml-2"></i></a>
+                            </div>
+                        </div>
+                    </div>`;
+                projectModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                setTimeout(() => projectModal.classList.add('open'), 10);
+            }
+
+            function closeModal() {
+                projectModal.classList.remove('open');
+                setTimeout(() => {
+                    projectModal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }, 500);
+            }
+            
+            // --- Ripple Button Microinteraction ---
+            openModalBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const ripple = document.createElement('span');
+                    const rect = btn.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+
+                    ripple.style.width = ripple.style.height = `${size}px`;
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    ripple.classList.add('ripple');
+                    
+                    // Remove any existing ripple
+                    const existingRipple = btn.querySelector('.ripple');
+                    if (existingRipple) {
+                        existingRipple.remove();
+                    }
+                    
+                    btn.appendChild(ripple);
+
+                    const projectId = btn.getAttribute('data-project');
+                    setTimeout(() => {
+                        openModal(projectId);
+                    }, 400); // Delay to let ripple start
+                });
+            });
+
+            closeModalBtn.addEventListener('click', closeModal);
+            modalBackdrop.addEventListener('click', closeModal);
+            document.addEventListener('keydown', (e) => e.key === 'Escape' && projectModal.classList.contains('open') && closeModal());
+        });
+
+        // --- three.js Background Animation Script ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const particlesCount = 5000;
+        const positions = new Float32Array(particlesCount * 3);
+        for (let i = 0; i < particlesCount * 3; i++) {
+            positions[i] = (Math.random() - 0.5) * 10;
+        }
+
+        const particlesGeometry = new THREE.BufferGeometry();
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.005,
+            color: 0x818cf8 // Indigo color to match the theme
+        });
+        const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particles);
+
+        camera.position.z = 5;
+
+        const clock = new THREE.Clock();
+
+        const animate = function () {
+            const elapsedTime = clock.getElapsedTime();
+            particles.rotation.y = elapsedTime * 0.05;
+            particles.rotation.x = elapsedTime * 0.05;
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        };
+
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+        });
+
+        animate();
+    </script>
+
+</body>
+</html>
