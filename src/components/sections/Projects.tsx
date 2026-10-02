@@ -53,7 +53,7 @@ export default function Projects() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
           {projects.map((project, idx) => (
-            <div key={idx} className="group relative bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-md overflow-hidden transition-all duration-500 hover:bg-white/10 hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(99,102,241,0.15)] cursor-pointer">
+            <div key={idx} className="group relative bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 backdrop-blur-sm md:backdrop-blur-md overflow-hidden transition-all duration-500 hover:bg-white/10 hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(99,102,241,0.15)] cursor-pointer">
               <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
               <div className="relative z-10 h-full flex flex-col justify-between">

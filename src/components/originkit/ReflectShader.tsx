@@ -162,7 +162,14 @@ export default function ReflectShader(props: ReflectShaderProps) {
         return { x: (n.offsetX * 2 - w) / m, y: (h - n.offsetY * 2) / m }
     }
 
+    const [isMobile, setIsMobile] = React.useState(false);
+
     React.useEffect(() => {
+        if (typeof window !== 'undefined' && window.innerWidth < 768) {
+            setIsMobile(true);
+            return;
+        }
+
         const canvas = canvasRef.current
         if (!canvas) return
 
@@ -277,6 +284,21 @@ export default function ReflectShader(props: ReflectShaderProps) {
             ro.disconnect()
         }
     }, [])
+
+    if (isMobile) {
+        return (
+            <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden bg-[#020202]">
+                <div className="absolute top-1/2 left-1/2 w-[150vw] h-[150vw] -translate-x-1/2 -translate-y-1/2 animate-[spin_20s_linear_infinite]">
+                    <div className="absolute top-10 left-10 w-[60vw] h-[60vw] bg-indigo-600/30 blur-[80px] rounded-full" />
+                </div>
+                <div className="absolute top-1/2 left-1/2 w-[120vw] h-[120vw] -translate-x-1/2 -translate-y-1/2 animate-[spin_15s_linear_infinite_reverse]">
+                    <div className="absolute bottom-10 right-10 w-[70vw] h-[70vw] bg-purple-600/20 blur-[90px] rounded-full" />
+                </div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-blue-500/10 blur-[100px] rounded-full animate-pulse" />
+                <div className="absolute inset-0 opacity-20 mix-blend-screen" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
+            </div>
+        );
+    }
 
     return (
         <div

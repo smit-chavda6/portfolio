@@ -34,7 +34,7 @@ export default function Experience() {
         <div className="flex flex-col lg:flex-row gap-8">
           
           {/* Experience Card */}
-          <div className="flex-1 group relative bg-[#0a0a0a]/60 backdrop-blur-2xl border border-white/10 rounded-3xl md:rounded-[2rem] p-8 md:p-14 hover:border-[#6366f1]/40 transition-colors duration-500 overflow-hidden flex flex-col">
+          <div className="flex-1 group relative bg-[#0a0a0a]/60 backdrop-blur-lg md:backdrop-blur-2xl border border-white/10 rounded-3xl md:rounded-[2rem] p-8 md:p-14 hover:border-[#6366f1]/40 transition-colors duration-500 overflow-hidden flex flex-col">
             <div className="absolute inset-0 bg-gradient-to-br from-[#6366f1]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             
             <div className="relative z-10 flex-grow">
@@ -63,7 +63,7 @@ export default function Experience() {
           </div>
 
           {/* Education Card */}
-          <div className="flex-1 group relative bg-[#0a0a0a]/60 backdrop-blur-2xl border border-white/10 rounded-3xl md:rounded-[2rem] p-8 md:p-14 hover:border-[#c084fc]/40 transition-colors duration-500 overflow-hidden flex flex-col">
+          <div className="flex-1 group relative bg-[#0a0a0a]/60 backdrop-blur-lg md:backdrop-blur-2xl border border-white/10 rounded-3xl md:rounded-[2rem] p-8 md:p-14 hover:border-[#c084fc]/40 transition-colors duration-500 overflow-hidden flex flex-col">
             <div className="absolute inset-0 bg-gradient-to-bl from-[#c084fc]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             
             <div className="relative z-10 flex-grow flex flex-col">

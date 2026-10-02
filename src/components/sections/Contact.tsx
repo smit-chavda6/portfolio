@@ -14,7 +14,7 @@ export default function Contact() {
       {/* Foreground Content */}
       <div className="relative z-10 flex flex-col items-center w-full px-6 max-w-4xl mx-auto">
         
-        <div className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-white/10 p-6 sm:p-10 md:p-16 rounded-[2rem] md:rounded-[2.5rem] shadow-2xl w-full text-center pointer-events-auto">
+        <div className="bg-[#0a0a0a]/70 backdrop-blur-lg md:backdrop-blur-2xl border border-white/10 p-6 sm:p-10 md:p-16 rounded-[2rem] md:rounded-[2.5rem] shadow-2xl w-full text-center pointer-events-auto">
           
           <h2 className="text-xs md:text-sm uppercase tracking-[0.2em] bg-gradient-to-r from-[#6366f1] via-[#c084fc] to-[#6366f1] animate-text-sweep font-bold mb-4">Get In Touch</h2>
           
