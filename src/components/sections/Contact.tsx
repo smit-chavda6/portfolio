@@ -6,7 +6,7 @@ import { motion } from "motion/react";
 
 export default function Contact() {
   return (
-    <section id="contact" className="relative w-full min-h-screen bg-black flex flex-col items-center justify-center overflow-hidden py-32">
+    <section id="contact" className="relative w-full min-h-screen bg-black flex flex-col items-center justify-center overflow-hidden py-20 md:py-32">
       
       {/* ASCII Water Background */}
       <AsciiWater className="z-0 opacity-80" />
@@ -14,22 +14,22 @@ export default function Contact() {
       {/* Foreground Content */}
       <div className="relative z-10 flex flex-col items-center w-full px-6 max-w-4xl mx-auto">
         
-        <div className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-white/10 p-10 md:p-16 rounded-[2.5rem] shadow-2xl w-full text-center pointer-events-auto">
+        <div className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-white/10 p-6 sm:p-10 md:p-16 rounded-[2rem] md:rounded-[2.5rem] shadow-2xl w-full text-center pointer-events-auto">
           
-          <h2 className="text-sm uppercase tracking-[0.2em] bg-gradient-to-r from-[#6366f1] via-[#c084fc] to-[#6366f1] animate-text-sweep font-bold mb-4">Get In Touch</h2>
+          <h2 className="text-xs md:text-sm uppercase tracking-[0.2em] bg-gradient-to-r from-[#6366f1] via-[#c084fc] to-[#6366f1] animate-text-sweep font-bold mb-4">Get In Touch</h2>
           
-          <h3 className="text-4xl md:text-6xl font-extrabold text-white mb-8 tracking-tight">
+          <h3 className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-white mb-6 md:mb-8 tracking-tight">
             Let's build something <br className="hidden md:block"/> <span className="bg-gradient-to-r from-[#6366f1] via-[#c084fc] to-[#6366f1] animate-text-sweep drop-shadow-[0_0_20px_rgba(99,102,241,0.4)]">extraordinary.</span>
           </h3>
           
-          <p className="text-lg text-[#a1a1aa] mb-12 max-w-2xl mx-auto leading-relaxed font-light">
+          <p className="text-sm sm:text-base md:text-lg text-[#a1a1aa] mb-10 md:mb-12 max-w-2xl mx-auto leading-relaxed font-light">
             I'm currently looking for AI engineering opportunities and my inbox is always open. Whether you have a question or just want to say hi, I'll get back to you.
           </p>
           
           {/* Small Pill Buttons Grid */}
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-3 md:gap-4 w-full">
             
-            <div className="flex flex-wrap justify-center gap-4 w-full">
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 md:gap-4 w-full">
               {/* Email */}
               <motion.a 
                 href="mailto:smitchavda6756@gmail.com" 
@@ -65,7 +65,7 @@ export default function Contact() {
               </motion.div>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-4 w-full">
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 md:gap-4 w-full">
               {/* LinkedIn */}
               <motion.a 
                 href="https://www.linkedin.com/in/smit-chavda6/" 

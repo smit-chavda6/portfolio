@@ -30,7 +30,7 @@ const projects = [
 
 export default function Projects() {
   return (
-    <section id="projects" className="relative w-full min-h-screen bg-[#020202] py-32 flex flex-col items-center">
+    <section id="projects" className="relative w-full min-h-screen bg-[#020202] py-20 md:py-32 flex flex-col items-center">
       <div className="absolute inset-0 z-0">
         <ShaderGroupSwitcher 
           background="#020202"
@@ -45,10 +45,10 @@ export default function Projects() {
       </div>
       
       <div className="relative z-10 w-full max-w-7xl mx-auto px-8 flex flex-col items-center">
-        <div className="text-center mb-24 max-w-3xl">
-          <h2 className="text-sm uppercase tracking-[0.2em] text-[#6366f1] font-semibold mb-4">Selected Work</h2>
-          <h3 className="text-4xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-[#6366f1] via-[#c084fc] to-[#6366f1] animate-text-sweep drop-shadow-[0_0_20px_rgba(99,102,241,0.4)]">Featured Projects</h3>
-          <p className="text-xl text-neutral-400">Four builds across LLM infrastructure, browser tooling and full-stack commerce.</p>
+        <div className="text-center mb-16 md:mb-24 max-w-3xl">
+          <h2 className="text-xs md:text-sm uppercase tracking-[0.2em] text-[#6366f1] font-semibold mb-4">Selected Work</h2>
+          <h3 className="text-3xl sm:text-4xl md:text-6xl font-extrabold mb-4 md:mb-6 bg-gradient-to-r from-[#6366f1] via-[#c084fc] to-[#6366f1] animate-text-sweep drop-shadow-[0_0_20px_rgba(99,102,241,0.4)]">Featured Projects</h3>
+          <p className="text-lg md:text-xl text-neutral-400 px-4 md:px-0">Four builds across LLM infrastructure, browser tooling and full-stack commerce.</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
@@ -58,9 +58,9 @@ export default function Projects() {
               
               <div className="relative z-10 h-full flex flex-col justify-between">
                 <div>
-                  <span className="text-xs font-medium text-indigo-400 uppercase tracking-wider mb-2 block">{project.category}</span>
-                  <h4 className="text-2xl font-bold text-white mb-4 group-hover:text-indigo-300 transition-colors">{project.title}</h4>
-                  <p className="text-neutral-400 leading-relaxed mb-6">{project.description}</p>
+                  <span className="text-[10px] md:text-xs font-medium text-indigo-400 uppercase tracking-wider mb-2 block">{project.category}</span>
+                  <h4 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4 group-hover:text-indigo-300 transition-colors">{project.title}</h4>
+                  <p className="text-sm md:text-base text-neutral-400 leading-relaxed mb-6">{project.description}</p>
                 </div>
                 
                 <div className="flex flex-wrap gap-2 mb-6">

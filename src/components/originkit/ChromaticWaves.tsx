@@ -1,10 +1,15 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function ChromaticWaves() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    if (window.innerWidth < 768) {
+      setIsMobile(true);
+      return;
+    }
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d", { alpha: false });
@@ -70,6 +75,16 @@ export default function ChromaticWaves() {
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
+
+  if (isMobile) {
+    return (
+      <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/4 left-0 w-full h-[40%] bg-indigo-600/10 blur-[80px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-0 w-full h-[40%] bg-purple-600/10 blur-[80px] animate-pulse" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute inset-0 opacity-10 mix-blend-screen" style={{ backgroundImage: 'repeating-linear-gradient(45deg, #6366f1 0, #6366f1 1px, transparent 1px, transparent 24px)' }} />
+      </div>
+    );
+  }
 
   return (
     <canvas 

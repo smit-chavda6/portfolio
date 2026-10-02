@@ -3,7 +3,7 @@ import DottedBackground from "../originkit/DottedBackground";
 
 export default function Experience() {
   return (
-    <section id="experience" className="relative w-full py-32 bg-[#020202] overflow-hidden">
+    <section id="experience" className="relative w-full py-20 md:py-32 bg-[#020202] overflow-hidden">
       
       {/* Dynamic Background Effects */}
       <div className="absolute inset-0 z-0 opacity-30 [mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_70%)]">
@@ -24,8 +24,8 @@ export default function Experience() {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
-        <div className="text-center mb-24">
-           <h2 className="text-sm uppercase tracking-[0.2em] bg-gradient-to-r from-[#6366f1] via-[#c084fc] to-[#6366f1] animate-text-sweep font-bold mb-6">Journey</h2>
+        <div className="text-center mb-16 md:mb-24">
+           <h2 className="text-xs md:text-sm uppercase tracking-[0.2em] bg-gradient-to-r from-[#6366f1] via-[#c084fc] to-[#6366f1] animate-text-sweep font-bold mb-4 md:mb-6">Journey</h2>
            <h3 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight">
               Experience & <span className="bg-gradient-to-r from-[#6366f1] via-[#c084fc] to-[#6366f1] animate-text-sweep drop-shadow-[0_0_20px_rgba(99,102,241,0.4)]">Education</span>
            </h3>
@@ -34,7 +34,7 @@ export default function Experience() {
         <div className="flex flex-col lg:flex-row gap-8">
           
           {/* Experience Card */}
-          <div className="flex-1 group relative bg-[#0a0a0a]/60 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-10 md:p-14 hover:border-[#6366f1]/40 transition-colors duration-500 overflow-hidden flex flex-col">
+          <div className="flex-1 group relative bg-[#0a0a0a]/60 backdrop-blur-2xl border border-white/10 rounded-3xl md:rounded-[2rem] p-8 md:p-14 hover:border-[#6366f1]/40 transition-colors duration-500 overflow-hidden flex flex-col">
             <div className="absolute inset-0 bg-gradient-to-br from-[#6366f1]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             
             <div className="relative z-10 flex-grow">
@@ -47,7 +47,7 @@ export default function Experience() {
               <div className="mb-8">
                 <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-4">
                   <div>
-                    <h4 className="text-3xl md:text-4xl font-extrabold text-white mb-2 group-hover:bg-gradient-to-r group-hover:from-[#6366f1] group-hover:to-[#c084fc] group-hover:animate-text-sweep group-hover:text-transparent group-hover:bg-clip-text transition-all duration-500">AI Engineer Intern</h4>
+                    <h4 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-2 group-hover:bg-gradient-to-r group-hover:from-[#6366f1] group-hover:to-[#c084fc] group-hover:animate-text-sweep group-hover:text-transparent group-hover:bg-clip-text transition-all duration-500">AI Engineer Intern</h4>
                     <p className="text-xl text-[#a1a1aa] font-medium">Dehix</p>
                   </div>
                   <div className="text-sm font-mono text-neutral-400 whitespace-nowrap">Mar 2026 – July 2026</div>
@@ -63,7 +63,7 @@ export default function Experience() {
           </div>
 
           {/* Education Card */}
-          <div className="flex-1 group relative bg-[#0a0a0a]/60 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-10 md:p-14 hover:border-[#c084fc]/40 transition-colors duration-500 overflow-hidden flex flex-col">
+          <div className="flex-1 group relative bg-[#0a0a0a]/60 backdrop-blur-2xl border border-white/10 rounded-3xl md:rounded-[2rem] p-8 md:p-14 hover:border-[#c084fc]/40 transition-colors duration-500 overflow-hidden flex flex-col">
             <div className="absolute inset-0 bg-gradient-to-bl from-[#c084fc]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             
             <div className="relative z-10 flex-grow flex flex-col">
@@ -76,7 +76,7 @@ export default function Experience() {
               <div className="mb-8">
                 <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-4">
                   <div>
-                    <h4 className="text-3xl md:text-4xl font-extrabold text-white mb-2 group-hover:bg-gradient-to-r group-hover:from-[#c084fc] group-hover:to-[#6366f1] group-hover:animate-text-sweep group-hover:text-transparent group-hover:bg-clip-text transition-all duration-500">Computer Engineering</h4>
+                    <h4 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-2 group-hover:bg-gradient-to-r group-hover:from-[#c084fc] group-hover:to-[#6366f1] group-hover:animate-text-sweep group-hover:text-transparent group-hover:bg-clip-text transition-all duration-500">Computer Engineering</h4>
                     <p className="text-xl text-[#a1a1aa] font-medium">Indus Institute of Technology</p>
                   </div>
                   <div className="text-sm font-mono text-neutral-400 whitespace-nowrap">2022 – 2026</div>

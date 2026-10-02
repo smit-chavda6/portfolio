@@ -22,16 +22,16 @@ export default function TechStack() {
   const row2 = [...skills.slice(6, 12), ...skills.slice(6, 12), ...skills.slice(6, 12), ...skills.slice(6, 12)];
 
   return (
-    <section id="skills" className="relative w-full min-h-screen flex flex-col justify-center py-32 bg-black overflow-hidden">
+    <section id="skills" className="relative w-full min-h-screen flex flex-col justify-center py-20 md:py-32 bg-black overflow-hidden">
       {/* Dynamic Chromatic Waves Background */}
       <ChromaticWaves />
       
       {/* Background glow over waves */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[500px] bg-[#6366f1]/10 blur-[150px] rounded-[100%] pointer-events-none z-0" />
       
-      <div className="max-w-7xl mx-auto px-6 relative z-10 text-center mb-20">
-        <h2 className="text-sm uppercase tracking-[0.2em] bg-gradient-to-r from-[#6366f1] via-[#c084fc] to-[#6366f1] animate-text-sweep font-bold mb-6">Capabilities</h2>
-        <h3 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight">
+      <div className="max-w-7xl mx-auto px-6 relative z-10 text-center mb-16 md:mb-20">
+        <h2 className="text-xs md:text-sm uppercase tracking-[0.2em] bg-gradient-to-r from-[#6366f1] via-[#c084fc] to-[#6366f1] animate-text-sweep font-bold mb-4 md:mb-6">Capabilities</h2>
+        <h3 className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-white tracking-tight">
           Tech Stack & <span className="bg-gradient-to-r from-[#6366f1] via-[#c084fc] to-[#6366f1] animate-text-sweep drop-shadow-[0_0_20px_rgba(99,102,241,0.4)]">Tools</span>
         </h3>
       </div>

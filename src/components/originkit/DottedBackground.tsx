@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import {
     Renderer,
     Camera,
@@ -399,6 +399,14 @@ export default function DottedBackground({
     const glyphTextureRef = useRef<any>(null);
     const glyphGridRef = useRef<any>(null);
     const dummyGlyphTextureRef = useRef<any>(null);
+
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.innerWidth < 768) {
+            setIsMobile(true);
+        }
+    }, []);
 
     const renderOnce = () => {
         const renderer = rendererRef.current;
@@ -805,6 +813,16 @@ export default function DottedBackground({
             renderOnce();
         }
     }, [effectivePlay]);
+
+    if (isMobile) {
+        return (
+            <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+                <div className="absolute top-1/4 left-1/4 w-[60%] h-[60%] bg-indigo-500/10 blur-[100px] rounded-full animate-pulse" />
+                <div className="absolute bottom-1/4 right-1/4 w-[60%] h-[60%] bg-purple-500/10 blur-[100px] rounded-full animate-pulse" style={{ animationDelay: '1.5s' }} />
+                <div className="absolute inset-0 opacity-15" style={{ backgroundImage: 'radial-gradient(circle, #6366f1 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+            </div>
+        );
+    }
 
     return (
         <div

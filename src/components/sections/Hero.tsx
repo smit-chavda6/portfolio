@@ -6,7 +6,7 @@ import ReflectShader from "../originkit/ReflectShader";
 
 export default function Hero() {
   return (
-    <section className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20">
+    <section className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden pt-12 md:pt-20">
       
       {/* Reflect Shader Background */}
       <div className="absolute inset-0 z-0">
@@ -24,15 +24,15 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 flex flex-col items-center px-6 max-w-4xl w-full">
-        <h1 className="text-[2.5rem] md:text-[4.5rem] lg:text-[5rem] font-bold tracking-tight text-white mb-6 leading-[1.1] text-center">
-          Building <span className="bg-gradient-to-r from-[#6366f1] via-[#c084fc] to-[#6366f1] animate-text-sweep font-extrabold drop-shadow-[0_0_20px_rgba(99,102,241,0.4)]">Generative-AI</span> Experiences
+        <h1 className="text-4xl sm:text-[2.5rem] md:text-[4.5rem] lg:text-[5rem] font-bold tracking-tight text-white mb-4 md:mb-6 leading-[1.2] md:leading-[1.1] text-center">
+          Building <br className="sm:hidden" /><span className="bg-gradient-to-r from-[#6366f1] via-[#c084fc] to-[#6366f1] animate-text-sweep font-extrabold drop-shadow-[0_0_20px_rgba(99,102,241,0.4)]">Generative-AI</span> Experiences
         </h1>
         
-        <p className="text-lg md:text-xl text-[#a1a1aa] text-center mb-12 max-w-[85%] leading-relaxed font-light">
+        <p className="text-base sm:text-lg md:text-xl text-[#a1a1aa] text-center mb-10 md:mb-12 max-w-full px-2 sm:px-0 sm:max-w-[85%] leading-relaxed font-light">
           An AI Engineer building generative-AI features, multi-provider LLM gateways and automated pipelines for modern web products.
         </p>
         
-        <div className="flex flex-row gap-5 items-center justify-center">
+        <div className="flex flex-col md:flex-row gap-5 items-center justify-center w-full">
           <motion.a 
             href="#projects" 
             onClick={(e) => {

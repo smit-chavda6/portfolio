@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 const MAX_DPR = 2
 
@@ -146,6 +146,14 @@ export default function ShaderGroupSwitcher({
 }: ShaderGroupSwitcherProps) {
     const hostRef = useRef<HTMLDivElement>(null)
     const canvasRef = useRef<HTMLCanvasElement>(null)
+    
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.innerWidth < 768) {
+            setIsMobile(true);
+        }
+    }, []);
 
     const live = useRef({
         bg: parseColor(background, [0.02, 0.02, 0.02]),
@@ -287,6 +295,15 @@ export default function ShaderGroupSwitcher({
             host.removeEventListener("pointerleave", onLeave)
         }
     }, [])
+
+    if (isMobile) {
+        return (
+            <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[60%] bg-indigo-600/10 blur-[100px] rounded-b-full animate-pulse" />
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[40%] bg-purple-600/10 blur-[80px] rounded-t-full animate-pulse" style={{ animationDelay: '2s' }} />
+            </div>
+        );
+    }
 
     return (
         <div 
