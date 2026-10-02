@@ -1,34 +1,36 @@
-# Smit Chavda — Portfolio
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Single-file personal portfolio. No build step: `index.html` contains all markup, styles and JS.
-It loads Tailwind (CDN), Font Awesome, Google Fonts and `three.js` (ambient particle
-background) from CDNs — the page still works if `three.js` fails to load.
+## Getting Started
 
-## Files
+First, run the development server:
 
-| File | Purpose |
-| --- | --- |
-| `index.html` | The site |
-| `404.html` | Not-found page (used by GitHub Pages / Netlify) |
-| `og-image.svg` | Social share card (`og:image`) |
-| `Smit-Chavda-Resume.pdf` | CV, linked from the hero "Download CV" button |
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-## Deploy
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### GitHub Pages
-1. Push this folder to a repo (e.g. `portfolio`).
-2. Repo → **Settings → Pages** → Source: `Deploy from a branch` → `main` / root.
-3. Live at `https://<username>.github.io/portfolio/`.
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-### Netlify / Vercel
-Drag the folder onto the dashboard, or connect the repo. No build command; publish directory
-is the project root.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## To personalise
+## Learn More
 
-- **Project links** — the "Code" links and modal "Source code" buttons currently point at the
-  GitHub profile. Set real repo URLs in the `DATA` object inside `index.html` (`repo` / `live`
-  fields) and the matching `href` on each card's `.link[data-role="repo"]`.
-- **`og:image`** — some platforms prefer PNG. Export `og-image.svg` to a 1200×630 PNG and
-  update the `og:image` / `twitter:image` meta tags if link previews look off.
-- **Canonical URL** — update `<link rel="canonical">` to the final domain.
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
